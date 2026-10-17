@@ -1,35 +1,29 @@
-
 name: Build C++ to EXE
 
 on:
-  workflow_dispatch:
   push:
-    branches:
-      - main
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-latest  # Menggunakan runner Windows agar menghasilkan file .exe
 
     steps:
-      - name: Download source code
-        uses: actions/checkout@v4
+    - name: Checkout Repository
+      uses: actions/checkout@v4
 
-      - name: Install C++ compiler
-        uses: msys2/setup-msys2@v2
-        with:
-          msystem: UCRT64
-          update: true
-          install: mingw-w64-ucrt-x86_64-gcc
+    - name: Setup MinGW
+      uses: egor-tukin/setup-mingw@v2
+      with:
+        mingw-version: latest
 
-      - name: Compile CPP to EXE
-        shell: msys2 {0}
-        run: |
-          mkdir -p build
-          g++ main.cpp -o build/main.exe -std=c++17 -O2 -static
+    - name: Compile with G++
+      run: g++ main.cpp -o app.exe
 
-      - name: Upload EXE
-        uses: actions/upload-artifact@v4
-        with:
-          name: program-exe
-          path: build/main.exe
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Windows-Executable
+        path: app.exe
