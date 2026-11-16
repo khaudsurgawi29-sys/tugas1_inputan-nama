@@ -1,5 +1,19 @@
-- name: Compile C++
-  run: g++ main.cpp -o main.exe
+name: Build C++
 
-- name: Run Program
-  run: .\main.exe
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Compile C++
+        run: g++ main.cpp -o main.exe
+
+      - name: Run Program
+        run: .\main.exe
