@@ -1,0 +1,35 @@
+name: Build C++ to EXE
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compile dengan g++ (MinGW)
+        shell: bash
+        run: |
+          mkdir -p build
+          SRC=$(find . -name "*.cpp" -not -path "./build/*")
+          g++ -std=c++17 -O2 -Wall -static -static-libgcc -static-libstdc++ $SRC -o build/app.exe
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: app-windows
+          path: build/app.exe
+
+      - name: Release (saat push tag v*)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/app.exe
