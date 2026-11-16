@@ -17,3 +17,9 @@ jobs:
 
       - name: Run Program
         run: .\main.exe
+
+      - name: Upload EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: program-exe
+          path: main.exe
