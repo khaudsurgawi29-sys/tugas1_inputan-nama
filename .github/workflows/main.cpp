@@ -1,7 +1,2 @@
-#include <iostream>
-using namespace std;
-
-int main() {
-    cout << "Hello World!" << endl;
-    return 0;
-}
+- name: Compile C++
+  run: g++ main.cpp -o main.exe
