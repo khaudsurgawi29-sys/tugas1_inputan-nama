@@ -1,0 +1,5 @@
+- name: Compile C++
+  run: g++ main.cpp -o main.exe
+
+- name: Run Program
+  run: .\main.exe
