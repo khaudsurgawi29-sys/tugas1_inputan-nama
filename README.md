@@ -5,12 +5,11 @@ menggunakan bahasa pemrograman C++.
 
 ## Struktur Folder
 
-- src/
-  - main.cpp
+- main.cpp
+- README.md
 - .github/
   - workflows/
     - build-cpp.yml
-- README.md
 
 ## Cara Menjalankan
 
